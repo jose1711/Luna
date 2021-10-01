@@ -5,3 +5,7 @@ v1.0.1-matrix:
 -- Improve pairing information: report error in dialog if available.
 -- Blank framebuffers on prescript.sh.
 -- Add missing icons.
+v1.0.2-matrix:
+-- Fixed pairing iterator issues.
+-- Added automatic bug reporting (supported only on some platforms)
+-- Added force unpair by key option.

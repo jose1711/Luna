@@ -10,7 +10,7 @@
                         <allowempty>true</allowempty>
                     </constraints>
                     <control type="edit" format="string">
-                        <heading>zesz</heading>
+                        <heading>Hostname or IP address</heading>
                     </control>
                 </setting>
                 <setting id="test" type="action" label="30008" help="">
@@ -223,6 +223,13 @@
         </category>
         <category id="functions" label="30021">
             <group id="3">
+                <setting id="30020" type="action" label="30020" help="">
+                    <level>0</level>
+                    <data>RunPlugin(plugin://$ID?action=unpair_by_key)</data>
+                    <control type="button" format="action">
+                        <close>true</close>
+                    </control>
+                </setting>
                 <setting id="30016" type="action" label="30016" help="">
                     <level>0</level>
                     <data>RunPlugin(plugin://$ID?action=select_launchscripts)</data>

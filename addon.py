@@ -11,7 +11,6 @@ import xbmcgui
 import xbmcplugin
 from resources.lib.util.confighelper import ConfigHelper
 from resources.lib.core.logger import Logger 
-
 from xbmcvfs import translatePath
 
 addon = xbmcaddon.Addon()
@@ -130,6 +129,18 @@ def quitgame():
         xbmcgui.Dialog().ok(addon.getLocalizedString(30000), addon.getLocalizedString(30017))
         xbmc.executebuiltin('Container.Refresh')
 
+def unpairByKey():
+    import shutil
+    if os.path.isfile(os.path.expanduser("~") + "/.cache/moonlight/client.p12"):
+        check = xbmcgui.Dialog().yesno('', 'Are you sure you want to clear the pairing key?', nolabel='No', yeslabel='Yes')
+        if check:
+            cachePath = os.path.expanduser("~") + '/.cache/moonlight'
+            shutil.rmtree(cachePath)
+            if not os.path.isdir(cachePath):
+                xbmcgui.Dialog().ok('', 'Pairing key successfully removed!')
+    else:
+        xbmcgui.Dialog().ok('', 'A pairing key was not found! Nothing to do...')
+
 def selectAudioDevice():
     device_list = []
     for line in subprocess.check_output('aplay -l | grep card', encoding='utf-8', shell=True).split('\n'):
@@ -144,7 +155,6 @@ def selectAudioDevice():
         CARDS_REGEX = r'(?:card ?)([^:]*).*(?:device ?)([^:]*)'
 
         match = re.match(CARDS_REGEX, device_name)
-
         index1 = match.group(1)
         index2 = match.group(2)
 
@@ -157,6 +167,7 @@ def selectLaunchscripts():
     if ret != -1:
         addon.setSettingString('launchscript_conf', launchscripts[ret])
         os.system('chmod +x ' + getAddonPath('/resources/launchscripts/'+launchscripts[ret])+'/*.sh')
+        os.system('chmod +x' + getAddonPath('/resources/create_bug_report.sh'))
 
 if config_helper.binary_path is None:
     xbmcgui.Dialog().ok("Missing binaries", "Couldn\'t detect moonlight binary.\nPlease check your setup.")
@@ -181,6 +192,8 @@ if 'action' in args:
         selectAudioDevice()
     elif action == 'select_launchscripts':
         selectLaunchscripts()
+    elif action == 'unpair_by_key':
+        unpairByKey()
     elif action == 'settings':
         settings()
 

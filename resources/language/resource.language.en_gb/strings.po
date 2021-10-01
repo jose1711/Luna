@@ -98,7 +98,7 @@ msgid "Input Device"
 msgstr ""
 
 msgctxt "#30020"
-msgid "Create Controller Map"
+msgid "Force unpair from all hosts"
 msgstr ""
 
 msgctxt "#30021"

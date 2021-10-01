@@ -19,6 +19,7 @@ class MoonlightHelper:
 
     def loop_lines(self, logger, iterator, dialog):
         for line in iterator:
+            xbmc.log(line.strip(), xbmc.LOGERROR)
             if line.strip() == "":
                 break
             if 'enter the following PIN' in line:
@@ -31,7 +32,7 @@ class MoonlightHelper:
         binary_path = self.config_helper.binary_path
         self.pair_success = False
         try:
-            pairing_proc = subprocess.Popen([binary_path + "moonlight", "pair"], cwd=binary_path, encoding='utf-8', stdout=subprocess.PIPE)
+            pairing_proc = subprocess.Popen([binary_path + "moonlight", "pair"], cwd=binary_path, encoding='utf-8', stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
             lines_iterator = iter(pairing_proc.stdout.readline, "")
             dialog = xbmcgui.DialogProgress()
             dialog.create(
@@ -49,8 +50,9 @@ class MoonlightHelper:
             else:
                 raise Exception('Pairing failed or already paired!')
         except Exception as e:
-            self.pairing_messages = str(e)
-            xbmcgui.Dialog().ok(self.plugin.getLocalizedString(30000), 'Pairing failed:\n' + self.pairing_messages)
+            if len(self.pairing_messages) < 5:
+                self.pairing_messages = "Pairing failed:\n" + str(e)
+            xbmcgui.Dialog().ok(self.plugin.getLocalizedString(30000), self.pairing_messages)
 
     def list_games(self):
         binary_path = self.config_helper.binary_path
@@ -102,15 +104,24 @@ class MoonlightHelper:
                 time.sleep(9)
                 player.stop()
 
+            t0 = time.monotonic()
             subprocess.run([scripts_path + 'prescript.sh', binary_path, codec], cwd=scripts_path, start_new_session=True)
             launch_cmd = subprocess.Popen([scripts_path + 'launch.sh', game_id], cwd=binary_path, start_new_session=True)
             launch_cmd.wait()
             subprocess.run([scripts_path + 'postscript.sh', binary_path], cwd=scripts_path, start_new_session=True)
 
-            xbmcgui.Dialog().notification('Information', game_id + ' is still running on host. Resume via Luna, ensuring to quit before the host is restarted!', xbmcgui.NOTIFICATION_INFO, False)
         except Exception as e:
             print("Failed to execute moonlight process.")
             print(e)
         finally:
             xbmc.audioResume()
             xbmc.executebuiltin("InhibitScreensaver(false)")
+
+            # Less than 10 seconds passed.
+            if time.monotonic() - t0 < 10:
+                result = xbmcgui.Dialog().yesno("", "It seems that moonlight-embedded might have crashed. Create an automatic bug report?")
+                if result:
+                    output = subprocess.check_output([scripts_path + '../../create_bug_report.sh'], encoding='utf-8', cwd=scripts_path+'../../', start_new_session=True)
+                    xbmcgui.Dialog().ok("", "Report your bug on GitHub or Forums with this URL: " + output)
+            else:
+                xbmcgui.Dialog().notification('Information', game_id + ' is still running on host. Resume via Luna, ensuring to quit before the host is restarted!', xbmcgui.NOTIFICATION_INFO, False)

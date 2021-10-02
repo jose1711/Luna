@@ -173,8 +173,11 @@ if config_helper.binary_path is None:
     xbmcgui.Dialog().ok("Missing binaries", "Couldn\'t detect moonlight binary.\nPlease check your setup.")
     exit()
 
-if addon.getSetting('launchscript_conf') == "":
+version = xbmcaddon.Addon().getAddonInfo('version')
+if version != addon.getSetting('addon_version') or addon.getSetting('launchscript_conf') == "":
+    xbmcgui.Dialog().ok("Updated addon", "Thank you for installing Luna.\nIt is required to setup your launch scripts again.")
     selectLaunchscripts()
+    addon.setSetting('addon_version', version)
 
 if 'action' in args:
     action = args['action'][0]

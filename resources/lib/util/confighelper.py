@@ -2,7 +2,6 @@ import configparser
 import os
 import xbmcaddon
 
-
 class ConfigHelper:
     config_path = None
     addon_path = None
@@ -44,12 +43,14 @@ class ConfigHelper:
     def configure(self, dump=True):
         self.binary_path = self._find_binary(self.addon_path)
 
-        if self.binary_path is None:
+        if os.access('/etc', os.W_OK):
+                self.config_path = '/etc/moonlight.conf'
+        elif self.binary_path is not None and os.access(self.binary_path, os.W_OK):
+            self.config_path = self.binary_path + 'moonlight.conf'
+        else:
             self.logger.info('Moonlight binary could not be found. Configuration file saved at %s' % self.addon_path)
             self.config_path = self.addon_path + 'moonlight.conf'
-        else:
-            self.config_path = self.binary_path + 'moonlight.conf'
-
+        
         launchscript_name = self.plugin.getSetting('launchscript_conf')
         if launchscript_name:
             self.launchscripts_path = self.addon_path + 'resources/launchscripts/' + launchscript_name + '/'

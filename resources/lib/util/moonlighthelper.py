@@ -101,7 +101,7 @@ class MoonlightHelper:
         try:
             if showIntro and not isResumeMode:
                 player.play(self.config_helper.addon_path + 'resources/statics/loading.mp4')
-                time.sleep(9)
+                time.sleep(10)
                 player.stop()
 
             t0 = time.monotonic()

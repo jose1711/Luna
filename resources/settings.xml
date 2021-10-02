@@ -237,6 +237,9 @@
                         <close>true</close>
                     </control>
                 </setting>
+                <setting id="addon_version" type="hidden" help="">
+                    <level>0</level>
+                </setting>
                 <setting id="last_run" type="hidden" label="30045" help="">
                     <level>0</level>
                 </setting>

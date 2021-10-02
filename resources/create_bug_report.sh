@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 cp ../bin/logfile bug_report_file
 
 echo "======= DMESG OUTPUT =======" >> bug_report_file

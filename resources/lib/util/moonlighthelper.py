@@ -89,9 +89,7 @@ class MoonlightHelper:
         showIntro = self.plugin.getSettingBool('show_intro')
         codec = self.config_helper.config['codec']
 
-        if isResumeMode:
-            xbmc.audioSuspend()
-        else:
+        if not isResumeMode:
             self.plugin.setSettingString('last_run', game_id)
 
         xbmc.executebuiltin("Dialog.Close(busydialog)")
@@ -103,7 +101,8 @@ class MoonlightHelper:
                 player.play(self.config_helper.addon_path + 'resources/statics/loading.mp4')
                 time.sleep(10)
                 player.stop()
-
+            
+            xbmc.audioSuspend()
             t0 = time.monotonic()
             subprocess.run([scripts_path + 'prescript.sh', binary_path, codec], cwd=scripts_path, start_new_session=True)
             launch_cmd = subprocess.Popen([scripts_path + 'launch.sh', game_id], cwd=binary_path, start_new_session=True)

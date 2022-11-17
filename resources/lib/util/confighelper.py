@@ -9,24 +9,7 @@ class ConfigHelper:
     launchscripts_path = None
     logger = None
     plugin = None
-    config = {
-        'host_addr':                    None,
-        'resolution_width':             None,
-        'resolution_height':            None,
-        'resolution':                   None,
-        'framerate':                    None,
-        'graphics_optimizations':       None,
-        'remote_optimizations':         None,
-        'bitrate':                      None,
-        'packetsize':                   None,
-        'audio_device':                 None,
-        'audio_device_parameter':       None,
-        'local_audio':                  None,
-        'debug_mode':                   None,
-        'codec':                        None,
-        'surround':                     None,
-        'nounsupported_flag':           None,
-    }
+    config = {}
 
     def __init__(self, plugin, logger):
         self.plugin = plugin
@@ -69,6 +52,7 @@ class ConfigHelper:
             'packetsize':                   self.plugin.getSettingInt('packetsize'),
             'nounsupported_flag':           self.plugin.getSetting('nounsupported_flag'),
             'nomouseemulation_flag':        self.plugin.getSetting('nomouseemulation_flag'),
+            'hdr_flag':                     self.plugin.getSetting('hdr_flag'),
             'graphics_optimizations':       self.plugin.getSetting('graphic_optimizations'),
             'remote_optimizations':         self.plugin.getSetting('remote_optimizations'),
             'local_audio':                  self.plugin.getSetting('local_audio'),
@@ -132,6 +116,7 @@ class ConfigHelper:
         
         config.set('Moonlight', 'nounsupported', self.config['nounsupported_flag'])
         config.set('Moonlight', 'nomouseemulation', self.config['nomouseemulation_flag'])
+        config.set('Moonlight', 'hdr', self.config['hdr_flag'])
 
         with open(self.config_path, 'w') as configfile:
             config.write(configfile)

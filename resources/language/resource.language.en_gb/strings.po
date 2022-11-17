@@ -209,8 +209,12 @@ msgctxt "#30047"
 msgid "Surround Audio Setup"
 msgstr ""
 
+msgctxt "#30048"
+msgid "Enable HDR (Experimental)"
+msgstr ""
+
 #Context Menu
-#empty strings from id 30048 to 30099
+#empty strings from id 30049 to 30099
 
 msgctxt "#30100"
 msgid "Addon Settings"

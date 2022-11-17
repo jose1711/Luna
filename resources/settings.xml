@@ -192,6 +192,11 @@
                     <default>false</default>
                     <control type="toggle"/>
                 </setting>
+                <setting id="hdr_flag" type="boolean" label="30048" help="">
+                    <level>1</level>
+                    <default>false</default>
+                    <control type="toggle"/>
+                </setting>
                 <setting id="graphic_optimizations" type="boolean" label="30014" help="">
                     <level>1</level>
                     <default>false</default>

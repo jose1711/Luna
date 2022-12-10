@@ -14,3 +14,7 @@ v1.1.0-matrix:
 -- Updated launchscripts.
 v1.1.1-matrix:
 -- [moonlight-embedded] Supply amlogic codec with packets' PTS (noticed less stuttering)
+v1.2.0:
+-- [moonlight-embedded] updates from upstream, codec fixes
+v1.2.1:
+-- New launchscripts - thank you @praxis88.

@@ -167,7 +167,7 @@ def selectLaunchscripts():
     if ret != -1:
         addon.setSettingString('launchscript_conf', launchscripts[ret])
         os.system('chmod +x ' + getAddonPath('/resources/launchscripts/'+launchscripts[ret])+'/*.sh')
-        os.system('chmod +x' + getAddonPath('/resources/create_bug_report.sh'))
+        os.system('chmod +x ' + getAddonPath('/resources/create_bug_report.sh'))
 
 if config_helper.binary_path is None:
     xbmcgui.Dialog().ok("Missing binaries", "Couldn\'t detect moonlight binary.\nPlease check your setup.")

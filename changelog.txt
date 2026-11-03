@@ -18,3 +18,6 @@ v1.2.0:
 -- [moonlight-embedded] updates from upstream, codec fixes
 v1.2.1:
 -- New launchscripts - thank you @praxis88.
+v1.2.2:
+-- [coreelec] Fix black screen / partial picture while streaming: keep the OSD blanked and the video axis/screen_mode correct after the display mode change (launch.sh).
+-- Fix missing space in chmod +x for create_bug_report.sh (bug report dialog failed with PermissionError).
